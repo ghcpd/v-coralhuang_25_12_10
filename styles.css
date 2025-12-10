@@ -1,0 +1,38 @@
+/* Simple modern styles */
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0ea5a4;
+  --accent-2:#0369a1;
+  --border:#e6e6e9;
+  --radius:8px;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#111827}
+.site-header{padding:24px;background:linear-gradient(90deg,var(--card),#eaf2f3);border-bottom:1px solid var(--border)}
+.site-header h1{margin:0;font-size:20px}
+.subtitle{margin:6px 0 0;color:var(--muted);font-size:13px}
+.container{display:flex;gap:20px;padding:20px;max-width:1100px;margin:20px auto}
+.sidebar{width:160px}
+.label{display:block;font-weight:600;margin-bottom:6px}
+.year-select{width:100%;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--card);outline:none}
+.year-select:focus{box-shadow:0 0 0 3px rgba(14,165,164,0.12)}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.content{flex:1}
+.panel{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:8px;margin-bottom:12px}
+.table{width:100%;border-collapse:collapse}
+.table thead th{text-align:left;padding:8px;border-bottom:1px solid var(--border);color:var(--muted);font-size:13px}
+.table tbody td{padding:10px;border-bottom:1px solid #f1f3f4}
+.table tbody tr:hover{background:#fbfcfd}
+.row-selected{background:linear-gradient(90deg, rgba(14,165,164,0.06), rgba(3,105,161,0.02));}
+.year-highlight{border:2px solid var(--accent);padding:6px;border-radius:6px}
+#resultsWrapper{font-size:14px;color:#111827}
+.results-table{width:100%;border-collapse:collapse;margin-top:8px}
+.results-table th, .results-table td{padding:8px;border-bottom:1px solid #eef2f3;text-align:left}
+.results-caption{font-size:13px;color:var(--muted);margin-top:6px}
+.site-footer{text-align:center;color:var(--muted);padding:10px;font-size:13px}
+.empty{color:var(--muted);padding:12px}
+.error{color:#b91c1c;padding:12px}
+/* Make sure only 5 options visible from UI via size attribute */

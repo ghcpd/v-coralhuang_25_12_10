@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>F1 Results Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>F1 Results Viewer</h1>
+    <p class="subtitle">Select a year to view rounds, then click a round to see race results.</p>
+  </header>
+
+  <main class="container">
+    <aside class="sidebar">
+      <label for="yearSelect" class="label">Year</label>
+      <select id="yearSelect" size="5" class="year-select" aria-label="Select season year"></select>
+      <div class="note">Displayed: 1950–2025 (scrollable; 5 visible at a time)</div>
+    </aside>
+
+    <section class="content">
+      <div class="year-info">Selected year: <span id="selectedYear">—</span></div>
+
+      <div id="roundsSection" class="panel">
+        <h2>Rounds</h2>
+        <div id="roundsWrapper">
+          <table id="roundsTable" class="table">
+            <thead>
+              <tr><th>Round</th><th>Race</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+              <!-- Rows populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="resultsSection" class="panel">
+        <h2>Race Results</h2>
+        <div id="resultsWrapper">Select a round to view results.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">Data from Ergast API (via proxy). Internet connection required.</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

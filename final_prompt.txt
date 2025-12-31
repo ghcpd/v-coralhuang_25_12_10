@@ -1,0 +1,52 @@
+You are a software engineer. Configure the `results.html` page with the following requirements:
+
+---
+
+## **1. Year Dropdown**
+
+* Display years **1950–2025** with only **5 items visible at a time** (scrollable).
+* On initial load, show **2021–2025**, while still allowing scrolling back to 1950.
+* The selected year will provide the `<<year>>` value for API requests.
+
+---
+
+## **2. APIs**
+
+* Season data: `https://api.jolpi.ca/ergast/f1/<<year>>.json`
+* Race results: `https://api.jolpi.ca/ergast/f1/<<year>>/<<round>>/results.json`
+
+---
+
+## **3. On Year Selection**
+
+* Fetch `<<year>>.json` and read the `"total"` field to determine the number of rounds.
+* Display a table with **one row per round** for the selected season.
+
+---
+
+## **4. On Round Selection**
+
+* Call `https://api.jolpi.ca/ergast/f1/<<year>>/<<round>>/results.json`.
+* Display detailed race results below the table.
+
+---
+
+## **5. UI/UX Aesthetic Requirements (Simplified)**
+
+* Use a clean, modern, and easy-to-read page layout.
+* Apply CSS to style the dropdown and tables for clarity.
+* Highlight the selected year and selected round.
+* Maintain consistent colors, fonts, and spacing throughout the page.
+* Show race results in a clear and readable table or list format.
+
+---
+
+## **6. README Requirements (Simplified)**
+
+The `README.md` should include:
+
+* **Overview** – Short description of the page workflow (select year → view rounds → view results).
+* **How to Run** – Instructions for opening and using `results.html`.
+* **API Info** – List the two APIs and explain how `<<year>>` and `<<round>>` are used.
+* **File Structure** – Short description of the HTML, CSS, and JS files.
+* **Notes** – Mention that an internet connection is required for API data.

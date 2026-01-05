@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Race Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .year-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .year-selector label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #555;
+            margin-right: 15px;
+        }
+
+        #yearDropdown {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        #yearDropdown:hover {
+            border-color: #764ba2;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        #yearDropdown:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-size: 1.8em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9em;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5ff;
+        }
+
+        tbody tr.selected {
+            background-color: #e8ebff;
+            border-left: 4px solid #667eea;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .error {
+            background-color: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #c33;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .race-details {
+            background: #f9f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .race-details h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .race-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .race-info-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .race-info-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .race-info-value {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .position-1 {
+            background-color: #ffd70020;
+        }
+
+        .position-2 {
+            background-color: #c0c0c020;
+        }
+
+        .position-3 {
+            background-color: #cd7f3220;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏎️ F1 Race Results</h1>
+        
+        <div class="year-selector">
+            <label for="yearDropdown">Select Year:</label>
+            <select id="yearDropdown" size="5">
+                <!-- Years will be populated by JavaScript -->
+            </select>
+        </div>
+
+        <div id="roundsSection" class="section hidden">
+            <h2>Season Rounds</h2>
+            <div id="roundsContent"></div>
+        </div>
+
+        <div id="resultsSection" class="section hidden">
+            <h2>Race Results</h2>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const yearDropdown = document.getElementById('yearDropdown');
+        const roundsSection = document.getElementById('roundsSection');
+        const roundsContent = document.getElementById('roundsContent');
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContent = document.getElementById('resultsContent');
+
+        let selectedRoundRow = null;
+
+        // Populate year dropdown (1950-2025)
+        function populateYearDropdown() {
+            for (let year = 2025; year >= 1950; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearDropdown.appendChild(option);
+            }
+            // Set default selection to 2025
+            yearDropdown.value = 2025;
+        }
+
+        // Fetch season data
+        async function fetchSeasonData(year) {
+            try {
+                roundsContent.innerHTML = '<div class="loading">Loading season data...</div>';
+                roundsSection.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+                
+                const response = await fetch(`https://api.jolpi.ca/ergast/f1/${year}.json`);
+                if (!response.ok) throw new Error('Failed to fetch season data');
+                
+                const data = await response.json();
+                const races = data.MRData.RaceTable.Races;
+                const total = data.MRData.total;
+                
+                displayRounds(races, year);
+            } catch (error) {
+                roundsContent.innerHTML = `<div class="error">Error loading season data: ${error.message}</div>`;
+            }
+        }
+
+        // Display rounds table
+        function displayRounds(races, year) {
+            if (races.length === 0) {
+                roundsContent.innerHTML = '<div class="error">No races found for this season.</div>';
+                return;
+            }
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Round</th>
+                            <th>Race Name</th>
+                            <th>Circuit</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            races.forEach(race => {
+                tableHTML += `
+                    <tr data-year="${year}" data-round="${race.round}">
+                        <td>${race.round}</td>
+                        <td>${race.raceName}</td>
+                        <td>${race.Circuit.circuitName}</td>
+                        <td>${race.Circuit.Location.locality}, ${race.Circuit.Location.country}</td>
+                        <td>${race.date}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += '</tbody></table>';
+            roundsContent.innerHTML = tableHTML;
+
+            // Add click listeners to rows
+            const rows = roundsContent.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // Remove previous selection
+                    if (selectedRoundRow) {
+                        selectedRoundRow.classList.remove('selected');
+                    }
+                    // Add selection to clicked row
+                    this.classList.add('selected');
+                    selectedRoundRow = this;
+                    
+                    const year = this.dataset.year;
+                    const round = this.dataset.round;
+                    fetchRaceResults(year, round);
+                });
+            });
+        }
+
+        // Fetch race results
+        async function fetchRaceResults(year, round) {
+            try {
+                resultsContent.innerHTML = '<div class="loading">Loading race results...</div>';
+                resultsSection.classList.remove('hidden');
+                
+                const response = await fetch(`https://api.jolpi.ca/ergast/f1/${year}/${round}/results.json`);
+                if (!response.ok) throw new Error('Failed to fetch race results');
+                
+                const data = await response.json();
+                const race = data.MRData.RaceTable.Races[0];
+                
+                displayRaceResults(race);
+            } catch (error) {
+                resultsContent.innerHTML = `<div class="error">Error loading race results: ${error.message}</div>`;
+            }
+        }
+
+        // Display race results
+        function displayRaceResults(race) {
+            const results = race.Results;
+            
+            let html = '<div class="race-details">';
+            html += `<h3>${race.raceName} - ${race.season}</h3>`;
+            
+            // Race information
+            html += '<div class="race-info">';
+            html += `
+                <div class="race-info-item">
+                    <div class="race-info-label">Circuit</div>
+                    <div class="race-info-value">${race.Circuit.circuitName}</div>
+                </div>
+                <div class="race-info-item">
+                    <div class="race-info-label">Location</div>
+                    <div class="race-info-value">${race.Circuit.Location.locality}, ${race.Circuit.Location.country}</div>
+                </div>
+                <div class="race-info-item">
+                    <div class="race-info-label">Date</div>
+                    <div class="race-info-value">${race.date}</div>
+                </div>
+                <div class="race-info-item">
+                    <div class="race-info-label">Round</div>
+                    <div class="race-info-value">${race.round}</div>
+                </div>
+            `;
+            html += '</div>';
+
+            // Results table
+            html += `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Driver</th>
+                            <th>Constructor</th>
+                            <th>Laps</th>
+                            <th>Grid</th>
+                            <th>Time/Status</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            results.forEach(result => {
+                const positionClass = result.position <= 3 ? `position-${result.position}` : '';
+                const timeStatus = result.Time ? result.Time.time : result.status;
+                
+                html += `
+                    <tr class="${positionClass}">
+                        <td><strong>${result.position}</strong></td>
+                        <td>${result.Driver.givenName} ${result.Driver.familyName}</td>
+                        <td>${result.Constructor.name}</td>
+                        <td>${result.laps}</td>
+                        <td>${result.grid}</td>
+                        <td>${timeStatus}</td>
+                        <td><strong>${result.points}</strong></td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table></div>';
+            resultsContent.innerHTML = html;
+        }
+
+        // Year dropdown change handler
+        yearDropdown.addEventListener('change', function() {
+            const selectedYear = this.value;
+            selectedRoundRow = null; // Reset round selection
+            resultsSection.classList.add('hidden'); // Hide results when year changes
+            fetchSeasonData(selectedYear);
+        });
+
+        // Initialize
+        populateYearDropdown();
+        fetchSeasonData(2025); // Load 2025 by default
+    </script>
+</body>
+</html>
